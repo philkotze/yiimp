@@ -126,17 +126,17 @@ uint32_t permutation_1[HASH_FUNC_COUNT_1];
 
             uint32_t steps_1 = (timestamp - HASH_FUNC_BASE_TIMESTAMP_1) % HASH_FUNC_COUNT_PERMUTATIONS_7;
             for (uint32_t i = 0; i < steps_1; i++) {
-                std::next_permutation(permutation_1, permutation_1 + HASH_FUNC_COUNT_1);
+                next_permutation(permutation_1, permutation_1 + HASH_FUNC_COUNT_1);
             }
 
             uint32_t steps_2 = (timestamp+ HASH_FUNC_VAR_1 - HASH_FUNC_BASE_TIMESTAMP_1) % HASH_FUNC_COUNT_PERMUTATIONS;
             for (uint32_t i = 0; i < steps_2; i++) {
-                std::next_permutation(permutation_2 + HASH_FUNC_COUNT_1, permutation_2 + HASH_FUNC_COUNT_1 + HASH_FUNC_COUNT_2);
+                next_permutation(permutation_2 + HASH_FUNC_COUNT_1, permutation_2 + HASH_FUNC_COUNT_1 + HASH_FUNC_COUNT_2);
             }
 
             uint32_t steps_3 = (timestamp+ HASH_FUNC_VAR_2 - HASH_FUNC_BASE_TIMESTAMP_1) % HASH_FUNC_COUNT_PERMUTATIONS_7;
             for (uint32_t i = 0; i < steps_3; i++) {
-                std::next_permutation(permutation_3 + HASH_FUNC_COUNT_1 + HASH_FUNC_COUNT_2, permutation_3 + HASH_FUNC_COUNT_1 + HASH_FUNC_COUNT_2 + HASH_FUNC_COUNT_3);
+                next_permutation(permutation_3 + HASH_FUNC_COUNT_1 + HASH_FUNC_COUNT_2, permutation_3 + HASH_FUNC_COUNT_1 + HASH_FUNC_COUNT_2 + HASH_FUNC_COUNT_3);
             }
 
 
@@ -148,12 +148,12 @@ sph_blake512_init(&ctx_blake);
 sph_blake512(&ctx_blake, hashA, dataLen);
 sph_blake512_close(&ctx_blake, hashB);
 
-	for (uint32_t i = 1; i < HASH_FUNC_COUNT; i++) {
+	for (uint32_t i = 1; i < HASH_FUNC_COUNT_1; i++) {
 		dataLen = 64;
 		hashA = &hash[16 * (i - 1)];
 		hashB = &hash[16 * i];
 
-		switch(permutation[i]) {
+		switch(permutation_1[i]) {
 			case 1:
 				sph_echo512_init(&ctx_echo);
 				sph_echo512 (&ctx_echo, hashA, dataLen);
@@ -178,9 +178,9 @@ sph_blake512_close(&ctx_blake, hashB);
 				sph_groestl512_close(&ctx_groestl, hashB);
 				break;
 			case 4:
-				sph_whirlpool512_init(&ctx_whirlpool);
-				sph_whirlpool512 (&ctx_whirlpool, hashA, dataLen);
-				sph_whirlpool512_close(&ctx_whirlpool, hashB);
+				sph_whirlpool_init(&ctx_whirlpool);
+				sph_whirlpool (&ctx_whirlpool, hashA, dataLen);
+				sph_whirlpool_close(&ctx_whirlpool, hashB);
 				break;
 
 				sph_jh512_init(&ctx_jh);
@@ -223,9 +223,9 @@ sph_blake512_close(&ctx_blake, hashB);
 
                 switch (permutation_2[i]) {
 			case 8:
-				sph_whirlpool512_init(&ctx_whirlpool);
-				sph_whirlpool512 (&ctx_whirlpool, hashA, dataLen);
-				sph_whirlpool512_close(&ctx_whirlpool, hashB);
+				sph_whirlpool_init(&ctx_whirlpool);
+				sph_whirlpool (&ctx_whirlpool, hashA, dataLen);
+				sph_whirlpool_close(&ctx_whirlpool, hashB);
 
 				sph_cubehash512_init(&ctx_cubehash);
 				sph_cubehash512 (&ctx_cubehash, hashB, dataLen);
@@ -287,9 +287,9 @@ sph_blake512_close(&ctx_blake, hashB);
 				sph_luffa512 (&ctx_luffa, hashA, dataLen);
 				sph_luffa512_close(&ctx_luffa, hashB);
 
-				sph_whirlpool512_init(&ctx_whirlpool);
-				sph_whirlpool512 (&ctx_whirlpool, hashB, dataLen);
-				sph_whirlpool512_close(&ctx_whirlpool, hashB);
+				sph_whirlpool_init(&ctx_whirlpool);
+				sph_whirlpool (&ctx_whirlpool, hashB, dataLen);
+				sph_whirlpool_close(&ctx_whirlpool, hashB);
 				break;
 		}
 
