@@ -19,10 +19,7 @@
 #include <sha3/sph_whirlpool.h>
 #include <sha3/gost_streebog.h>
 #include <sha3/sph_haval.h>
-extern "C" {
 #include <sha3/sph_sha2.h>
-}
-
 
 #define HASH_FUNC_BASE_TIMESTAMP_1 1492973331 // Bitcore  Genesis
 #define HASH_FUNC_COUNT_1 8
@@ -90,7 +87,7 @@ void timetravel_hash(const char* input, char* output, uint32_t len)
 	uint32_t *work_data = (uint32_t *)input;
 	const uint32_t timestamp = work_data[17];
 
-	sph_blake512_context     ctx_blake;
+    sph_blake512_context     ctx_blake;
     sph_bmw512_context       ctx_bmw;
     sph_groestl512_context   ctx_groestl;
     sph_jh512_context        ctx_jh;
@@ -304,9 +301,9 @@ sph_blake512_close(&ctx_blake, hashB);
 
                 switch (permutation_3[i]) {
 			case 16:
-				sph_sha512_init(&ctx_sha);
-				sph_sha512 (&ctx_sha, hashA, dataLen);
-				sph_sha512_close(&ctx_sha, hashB);
+				sph_sha512_init(&ctx_sha512);
+				sph_sha512 (&ctx_sha512, hashA, dataLen);
+				sph_sha512_close(&ctx_sha512, hashB);
 
 				sph_haval256_5_init(&ctx_haval);
 				sph_haval256_5 (&ctx_haval, hashB, dataLen);
@@ -344,9 +341,9 @@ sph_blake512_close(&ctx_blake, hashB);
 				sph_cubehash512 (&ctx_cubehash, hashA, dataLen);
 				sph_cubehash512_close(&ctx_cubehash, hashB);
 
-				sph_sha512_init(&ctx_sha);
-				sph_sha512 (&ctx_sha, hashB, dataLen);
-				sph_sha512_close(&ctx_sha, hashB);
+				sph_sha512_init(&ctx_sha512);
+				sph_sha512 (&ctx_sha512, hashB, dataLen);
+				sph_sha512_close(&ctx_sha512, hashB);
 				break;
 			case 21:
 				sph_echo512_init(&ctx_echo);
