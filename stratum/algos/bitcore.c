@@ -184,7 +184,6 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 			sph_whirlpool_init(&ctx_whirlpool);
 			sph_whirlpool(&ctx_whirlpool, hashA, dataLen);
 			sph_whirlpool_close(&ctx_whirlpool, hashB);
-			break;
 
 			sph_jh512_init(&ctx_jh);
 			sph_jh512(&ctx_jh, hashB, dataLen);
@@ -270,7 +269,6 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 			sph_bmw512_init(&ctx_bmw);
 			sph_bmw512(&ctx_bmw, hashA, dataLen);
 			sph_bmw512_close(&ctx_bmw, hashB);
-			break;
 
 			sph_fugue512_init(&ctx_fugue);
 			sph_fugue512(&ctx_fugue, hashB, dataLen);
