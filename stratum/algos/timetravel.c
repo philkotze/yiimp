@@ -140,7 +140,7 @@ uint32_t permutation_1[HASH_FUNC_COUNT_1];
             }
 
 
-dataLen = len;
+dataLen = 80;
 hashA = work_data;
 hashB = &hash[0];
 
